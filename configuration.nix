@@ -146,6 +146,8 @@
     nodePackages.pyright
     nil
     element-desktop
+    compcert
+    (import ./packages/coq-http.nix { pkgs=pkgs; })
   ];
   fonts.fonts = with pkgs; [
     julia-mono
