@@ -32,7 +32,7 @@
         set expandtab
         set tabstop=8 softtabstop=0
 
-        nnoremap <C-n> :NERDTree<CR>
+        nnoremap <C-n> :NERDTreeToggle<CR>
         set foldexpr=nvim_treesitter#fold_expr()
         lua << EOF
         local builtin = require('telescope.builtin')
