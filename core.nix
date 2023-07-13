@@ -24,6 +24,7 @@
           nvim-treesitter.withAllGrammars
           nvim-treesitter-pyfold
           nvim-lspconfig
+          nerdtree
         ];
       };
       customRC = ''
