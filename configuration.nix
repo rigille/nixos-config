@@ -118,9 +118,6 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
   nixpkgs.config.tarball-ttl = 0;
-  nixpkgs.overlays = [
-    (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; } )
-  ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.keep-outputs = true;
   nix.settings.keep-derivations = true;
@@ -140,20 +137,16 @@
     tree
     google-cloud-sdk
     kitty
-    direnv
-    nix-direnv
     vim
     nodePackages.pyright
     nil
     element-desktop
     compcert
     (import ./packages/coq-http.nix { pkgs=pkgs; })
+    openrgb
   ];
   fonts.fonts = with pkgs; [
     julia-mono
-  ];
-  environment.pathsToLink = [
-    "/share/nix-direnv"
   ];
   environment.variables.EDITOR = "nvim";
 
@@ -177,7 +170,7 @@
   services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 44455 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
