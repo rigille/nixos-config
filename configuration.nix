@@ -144,6 +144,7 @@
     compcert
     (import ./packages/coq-http.nix { pkgs=pkgs; })
     openrgb
+    libsForQt5.okular
   ];
   fonts.fonts = with pkgs; [
     julia-mono
