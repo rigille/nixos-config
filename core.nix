@@ -12,6 +12,7 @@
     findutils
     diffutils
     man
+    nil
   ];
 
   programs.neovim = {
@@ -46,6 +47,7 @@
         
         local lspconfig = require('lspconfig')
         lspconfig.pyright.setup {}
+        lspconfig.nil_ls.setup {}
 
         -- Global mappings.
         -- Use LspAttach autocommand to only map the following keys

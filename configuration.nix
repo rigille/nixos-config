@@ -146,6 +146,7 @@
     openrgb
     libsForQt5.okular
     tor
+    tor-browser-bundle-bin
   ];
   fonts.fonts = with pkgs; [
     julia-mono
