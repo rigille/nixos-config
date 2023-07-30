@@ -147,6 +147,7 @@
     libsForQt5.okular
     tor
     tor-browser-bundle-bin
+    calibre
   ];
   fonts.fonts = with pkgs; [
     julia-mono
