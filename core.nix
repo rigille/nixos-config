@@ -26,6 +26,7 @@
           nvim-treesitter-pyfold
           nvim-lspconfig
           nerdtree
+          Coqtail
         ];
       };
       customRC = ''
