@@ -148,6 +148,7 @@
     tor
     tor-browser-bundle-bin
     calibre
+    mdcat
   ];
   fonts.fonts = with pkgs; [
     julia-mono
@@ -162,6 +163,7 @@
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
+
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
   #   enable = true;
@@ -169,6 +171,7 @@
   # };
 
   # List services that you want to enable:
+  services.flatpak.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

@@ -13,6 +13,8 @@
     diffutils
     man
     nil
+    ripgrep
+    ccls
   ];
 
   programs.neovim = {
@@ -23,7 +25,6 @@
         start = with pkgs.vimPlugins; [
           telescope-zoxide
           nvim-treesitter.withAllGrammars
-          nvim-treesitter-pyfold
           nvim-lspconfig
           nerdtree
           Coqtail
@@ -33,10 +34,18 @@
         set shiftwidth=4 smarttab
         set expandtab
         set tabstop=8 softtabstop=0
+        set clipboard=unnamedplus
+
+        set foldlevel=99
 
         nnoremap <C-n> :NERDTreeToggle<CR>
-        set foldexpr=nvim_treesitter#fold_expr()
         lua << EOF
+        local vim = vim
+        local opt = vim.opt
+
+        opt.foldmethod = "expr"
+        opt.foldexpr = "nvim_treesitter#foldexpr()"
+
         local builtin = require('telescope.builtin')
         vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
         vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
@@ -49,6 +58,7 @@
         local lspconfig = require('lspconfig')
         lspconfig.pyright.setup {}
         lspconfig.nil_ls.setup {}
+        lspconfig.ccls.setup {}
 
         -- Global mappings.
         -- Use LspAttach autocommand to only map the following keys

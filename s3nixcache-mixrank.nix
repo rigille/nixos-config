@@ -2,10 +2,10 @@
   nix = {
     settings = {
       substituters = [
-        "s3://mr-nixcache?profile=mixrank"
+        "s3://mr-nixcache-icenyeamyubu?profile=mixrank"
       ];
       trusted-public-keys = [
-        "mr-nixcache:/pYWDq35flabWpnX2d/t6NV6IlkTQiP4MRddc1F3WuU="
+        "mr-nixcache-icenyeamyubu:q2ulb+bD5NCbp9nvvHod39/1qNqnYX0ACb8eQckb7pI="
       ];
     };
   };
