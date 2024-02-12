@@ -28,6 +28,7 @@
           nvim-lspconfig
           nerdtree
           Coqtail
+          vim-kitty-navigator
         ];
       };
       customRC = ''
@@ -35,10 +36,19 @@
         set expandtab
         set tabstop=8 softtabstop=0
         set clipboard=unnamedplus
+        set number
 
         set foldlevel=99
 
         nnoremap <C-n> :NERDTreeToggle<CR>
+        tnoremap <Esc> <C-\><C-n>
+
+        let g:kitty_navigator_no_mappings = 1
+
+        nnoremap <silent> <C-h> :KittyNavigateLeft<cr>
+        nnoremap <silent> <C-j> :KittyNavigateDown<cr>
+        nnoremap <silent> <C-k> :KittyNavigateUp<cr>
+        nnoremap <silent> <C-l> :KittyNavigateRight<cr>
         lua << EOF
         local vim = vim
         local opt = vim.opt
@@ -67,7 +77,7 @@
           group = vim.api.nvim_create_augroup('UserLspConfig', {}),
           callback = function(ev)
             -- Enable completion triggered by <c-x><c-o>
-            vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+            vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
 
             -- Buffer local mappings.
             -- See `:help vim.lsp.*` for documentation on any of the below functions

@@ -48,9 +48,9 @@
     LC_TELEPHONE = "pt_BR.UTF-8";
     LC_TIME = "pt_BR.UTF-8";
   };
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.tailscale.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Enable the GNOME Desktop Environment.
@@ -75,9 +75,23 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  services.yggdrasil = {
+    enable = true;
+    settings = {
+      Listen = [ ];
+      Peers = [
+        "tcp://supergay.network:9002"
+        "tcp://corn.chowder.land:9002"
+        "tls://ygg.jjolly.dev:3443"
+        "tls://ygg.mnpnk.com:443"
+      ];
+    };
+  };
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.bluetooth.enable = true;
+  hardware.i2c.enable = true;
   hardware.firmware = [ pkgs.rtl8761b-firmware ];
   hardware.pulseaudio.enable = false;
   hardware.opengl.extraPackages = with pkgs; [
@@ -118,14 +132,14 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
   nixpkgs.config.tarball-ttl = 0;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
   nix.settings.keep-outputs = true;
   nix.settings.keep-derivations = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    firefox
+    firefox-esr
     radeontop
     prismlauncher-qt5
     xonotic-glx
@@ -142,13 +156,15 @@
     nil
     element-desktop
     compcert
-    (import ./packages/coq-http.nix { pkgs=pkgs; })
     openrgb
     libsForQt5.okular
     tor
     tor-browser-bundle-bin
     calibre
     mdcat
+    xclip
+    yggdrasil
+    blender
   ];
   fonts.fonts = with pkgs; [
     julia-mono
@@ -162,6 +178,7 @@
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
+  programs.direnv.enable = true;
 
 
   # programs.mtr.enable = true;
@@ -177,7 +194,7 @@
   services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 44455 ];
+  networking.firewall.allowedTCPPorts = [ 20 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
