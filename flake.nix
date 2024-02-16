@@ -3,10 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    neovim.url = "github:rigille/neovim";
     # unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
   
-  outputs = { self, nixpkgs, ... } @ inputs :
+  outputs = { self, nixpkgs, neovim, ... } @ inputs :
     let
       system = "x86_64-linux";
       hosts = [

@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -75,19 +75,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  services.yggdrasil = {
-    enable = true;
-    settings = {
-      Listen = [ ];
-      Peers = [
-        "tcp://supergay.network:9002"
-        "tcp://corn.chowder.land:9002"
-        "tls://ygg.jjolly.dev:3443"
-        "tls://ygg.mnpnk.com:443"
-      ];
-    };
-  };
-
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.bluetooth.enable = true;
@@ -139,6 +126,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    inputs.neovim.outputs.packages.x86_64-linux.default
     firefox-esr
     radeontop
     prismlauncher-qt5
