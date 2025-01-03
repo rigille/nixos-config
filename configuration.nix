@@ -129,7 +129,6 @@
     radeontop
     prismlauncher
     xonotic-glx
-    slack
     discord
     tdesktop
     spotify
