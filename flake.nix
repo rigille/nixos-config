@@ -2,12 +2,12 @@
   description = "Rigille's personal flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     neovim.url = "github:rigille/neovim";
-    # unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    mixrank.url = "git+ssh://git@gitlab.com/mixrank/mixrank";
   };
   
-  outputs = { self, nixpkgs, neovim, ... } @ inputs :
+  outputs = { self, nixpkgs, mixrank, neovim, ... } @ inputs :
     let
       system = "x86_64-linux";
       hosts = [
@@ -18,6 +18,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./configuration.nix
+          mixrank.nixosModules.dev-machine
         ];
       };
     in {

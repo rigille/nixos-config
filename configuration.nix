@@ -19,9 +19,9 @@
   boot.initrd.kernelModules = [ "amdgpu" "i2c-dev" "i2c-piix4" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ xone ];
 
+  
 
   networking.hostName = "rigille-workstation"; # Define your hostname.
-  networking.extraHosts = builtins.readFile /var/hosts.mixrank;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -52,6 +52,7 @@
   services.xserver.enable = true;
   services.tailscale.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
+  services.hardware.openrgb.enable = true;
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -65,8 +66,8 @@
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "br";
-    xkbVariant = "";
+    xkb.layout = "br";
+    xkb.variant = "";
   };
 
   # Configure console keymap
@@ -111,10 +112,6 @@
     #  thunderbird
     ];
   };
-  users.extraGroups.vboxusers.members = [ "rigille" ];
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.guest.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
@@ -126,10 +123,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    ed
     inputs.neovim.outputs.packages.x86_64-linux.default
     firefox-esr
     radeontop
-    prismlauncher-qt5
+    prismlauncher
     xonotic-glx
     slack
     discord
@@ -154,7 +152,7 @@
     yggdrasil
     blender
   ];
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     julia-mono
   ];
   environment.variables.EDITOR = "nvim";

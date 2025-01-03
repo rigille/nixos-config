@@ -1,5 +1,20 @@
 {
   "nodes": {
+    "flake-compat": {
+      "locked": {
+        "lastModified": 1696426674,
+        "narHash": "sha256-kvjfFW7WAETZlt09AgDn1MrtKzP7t90Vf7vypd3OL1U=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "0f9255e01c2351cc7d116c072cb317785dd33b33",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -31,6 +46,26 @@
         "owner": "numtide",
         "repo": "flake-utils",
         "type": "github"
+      }
+    },
+    "mixrank": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "nixpkgs_latest": "nixpkgs_latest",
+        "nixpkgs_old": "nixpkgs_old"
+      },
+      "locked": {
+        "lastModified": 1726754315,
+        "narHash": "sha256-6cx0t7Dmh4+8NqqqkSfFsizm2hCf36jvbuXTG+/UDpk=",
+        "ref": "refs/heads/master",
+        "rev": "5923b56c2da4a97e871842af10296c7f8379da68",
+        "revCount": 65736,
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mixrank/mixrank"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@gitlab.com/mixrank/mixrank"
       }
     },
     "neovim": {
@@ -96,22 +131,56 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1700678569,
-        "narHash": "sha256-2Ki+2UvOidxEb3xB4ADqlbPQ2BZOF4uZMR094O8or2I=",
+        "lastModified": 1726447378,
+        "narHash": "sha256-2yV8nmYE1p9lfmLHhOCbYwQC/W8WYfGQABoGzJOb1JQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8f1180704ac35baded1a74164365ac7cdfba6f38",
+        "rev": "086b448a5d54fd117f4dc2dee55c9f0ff461bdc1",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-23.05",
+        "ref": "nixos-24.05",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_latest": {
+      "locked": {
+        "lastModified": 1720492477,
+        "narHash": "sha256-PV6LKJpj43tuKAMEfmXiKZjlOW1IqZORUJ8WYcdLtGE=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "64f145f456b7a3953f191cad9e257cd88412044e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "64f145f456b7a3953f191cad9e257cd88412044e",
+        "type": "github"
+      }
+    },
+    "nixpkgs_old": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1568853802,
+        "narHash": "sha256-eFyFVDVExwB1aGHVmemgh57EAcTs5rekWhlPnxAowu8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2c906666e54c9f050b4a25142b4ff0e73c9b7dcc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2c906666e54c9f050b4a25142b4ff0e73c9b7dcc",
         "type": "github"
       }
     },
     "root": {
       "inputs": {
+        "mixrank": "mixrank",
         "neovim": "neovim",
         "nixpkgs": "nixpkgs_2"
       }
