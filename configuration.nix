@@ -77,14 +77,12 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.bluetooth.enable = true;
   hardware.i2c.enable = true;
   hardware.firmware = [ pkgs.rtl8761b-firmware ];
   hardware.pulseaudio.enable = false;
-  hardware.opengl.extraPackages = with pkgs; [
-    rocm-opencl-icd
-    rocm-opencl-runtime
+  hardware.graphics.extraPackages = with pkgs; [
+    rocmPackages.clr.icd
   ];
   security.rtkit.enable = true;
   services.pipewire = {
@@ -137,7 +135,7 @@
     google-cloud-sdk
     kitty
     vim
-    nodePackages.pyright
+    pyright
     nil
     element-desktop
     compcert
