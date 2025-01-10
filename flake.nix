@@ -5,9 +5,13 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     neovim.url = "github:rigille/neovim";
     mixrank.url = "git+ssh://git@gitlab.com/mixrank/mixrank";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   
-  outputs = { self, nixpkgs, mixrank, neovim, ... } @ inputs :
+  outputs = { self, nixpkgs, mixrank, neovim, home-manager, ... } @ inputs:
     let
       system = "x86_64-linux";
       hosts = [
@@ -19,6 +23,7 @@
         modules = [
           ./configuration.nix
           mixrank.nixosModules.dev-machine
+          home-manager.nixosModules.home-manager
         ];
       };
     in {

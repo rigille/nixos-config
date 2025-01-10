@@ -11,6 +11,36 @@
       ./s3nixcache-mixrank.nix
       ./core.nix
     ];
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "backup";
+    users.rigille = { pkgs, ... }: {
+      home.stateVersion = "22.11";  # Use the same version as your NixOS
+
+      programs = {
+        bash.enable = true;
+        kitty = {
+          enable = true;
+          settings = {
+            shell = "bash";
+            scrollback_pager = "nvim -c 'set signcolumn=no nonumber nolist showtabline=0 foldcolumn=0' -c '%s/\\%x1b\\[[0-9;]*[a-zA-Z]//g' -c 'normal G' -c 'map q :qa!<CR>' -";
+          };
+          font.name = "JuliaMono";
+          shellIntegration = {
+            enableBashIntegration = true;
+          };
+        };
+        zoxide.enable = true;
+      };
+    
+      # This is important to manage your dotfiles
+      home.file = {
+        # Example: .bashrc
+        #".bashrc".source = ./bashrc;
+      };
+    };
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -107,7 +137,6 @@
     description = "Rígille";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    #  thunderbird
     ];
   };
   # Allow unfree packages
@@ -133,7 +162,6 @@
     snes9x-gtk
     tree
     google-cloud-sdk
-    kitty
     vim
     pyright
     nil
@@ -161,7 +189,6 @@
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
-
 
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
