@@ -80,7 +80,8 @@
   };
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.tailscale.enable = true;
+  services.yggdrasil.enable = true;
+  services.yggdrasil.settings.Peers = ["tcp://95.164.4.146:7676"];
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.hardware.openrgb.enable = true;
 
@@ -143,6 +144,8 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
   nixpkgs.config.tarball-ttl = 0;
+
+  nix.package = pkgs.lib.mkForce pkgs.nixVersions.latest;
   nix.settings.experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
   nix.settings.keep-outputs = true;
   nix.settings.keep-derivations = true;
@@ -174,8 +177,11 @@
     calibre
     mdcat
     xclip
-    yggdrasil
     blender
+    wget
+    (pkgs.writeShellScriptBin "reliable-download" ''
+      wget -c --timeout=60 --tries=0 --retry-connrefused --waitretry=5 "$@"
+    '')
   ];
   fonts.packages = with pkgs; [
     julia-mono
@@ -203,8 +209,8 @@
   services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 20 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [];
+  networking.firewall.allowedUDPPorts = [];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 

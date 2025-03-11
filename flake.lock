@@ -1,20 +1,5 @@
 {
   "nodes": {
-    "flake-compat": {
-      "locked": {
-        "lastModified": 1696426674,
-        "narHash": "sha256-kvjfFW7WAETZlt09AgDn1MrtKzP7t90Vf7vypd3OL1U=",
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "rev": "0f9255e01c2351cc7d116c072cb317785dd33b33",
-        "type": "github"
-      },
-      "original": {
-        "owner": "edolstra",
-        "repo": "flake-compat",
-        "type": "github"
-      }
-    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -71,16 +56,15 @@
     },
     "mixrank": {
       "inputs": {
-        "flake-compat": "flake-compat",
         "nixpkgs_latest": "nixpkgs_latest",
         "nixpkgs_old": "nixpkgs_old"
       },
       "locked": {
-        "lastModified": 1726754315,
-        "narHash": "sha256-6cx0t7Dmh4+8NqqqkSfFsizm2hCf36jvbuXTG+/UDpk=",
+        "lastModified": 1737571412,
+        "narHash": "sha256-TVuLsG+1UmWq3eOsO/lmEPaT9MOdAl+sVbpbMfu+b68=",
         "ref": "refs/heads/master",
-        "rev": "5923b56c2da4a97e871842af10296c7f8379da68",
-        "revCount": 65736,
+        "rev": "89e9b15145f0f53532bfad28c72e55985bc4b243",
+        "revCount": 69698,
         "type": "git",
         "url": "ssh://git@gitlab.com/mixrank/mixrank"
       },
