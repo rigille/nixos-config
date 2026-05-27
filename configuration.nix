@@ -11,15 +11,15 @@
       ./s3nixcache-mixrank.nix
       ./core.nix
     ];
+
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "backup";
     users.rigille = { pkgs, ... }: {
-      home.stateVersion = "22.11";  # Use the same version as your NixOS
+      home.stateVersion = "25.05";  # Use the same version as your NixOS
 
       programs = {
-        bash.enable = true;
         kitty = {
           enable = true;
           settings = {
@@ -37,7 +37,7 @@
       # This is important to manage your dotfiles
       home.file = {
         # Example: .bashrc
-        #".bashrc".source = ./bashrc;
+        ".bashrc".source = ./bashrc;
       };
     };
   };
@@ -48,7 +48,17 @@
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.initrd.kernelModules = [ "amdgpu" "i2c-dev" "i2c-piix4" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ xone ];
-
+  systemd.services.openrgb-boot = {
+    description = "OpenRGB Boot Profile";
+    after = [ "graphical-session.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.openrgb}/bin/openrgb --profile /home/rigille/.config/OpenRGB/noiva.orp";
+      User = "rigille";
+      Group = "plugdev";
+    };
+  };
   
 
   networking.hostName = "rigille-workstation"; # Define your hostname.
@@ -60,6 +70,12 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  #networking.extraHosts = ''
+  #  127.0.0.1 youtube.com
+  #  127.0.0.1 www.youtube.com
+  #  127.0.0.1 chess.com
+  #  127.0.0.1 www.chess.com
+  #'';
 
   # Set your time zone.
   time.timeZone = "America/Bahia";
@@ -79,11 +95,11 @@
     LC_TIME = "pt_BR.UTF-8";
   };
   # Enable the X11 windowing system.
+  services.openssh.enable = true;
   services.xserver.enable = true;
   services.yggdrasil.enable = true;
   services.yggdrasil.settings.Peers = ["tcp://95.164.4.146:7676"];
   services.xserver.videoDrivers = [ "amdgpu" ];
-  services.hardware.openrgb.enable = true;
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -115,6 +131,11 @@
   hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
   ];
+  services.udev.packages = [ pkgs.openrgb ];
+  services.hardware.openrgb = {
+    enable = true;
+    motherboard = "amd"; # or "intel" depending on your system
+  };
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -133,19 +154,19 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.groups.plugdev = {};
   users.users.rigille = {
     isNormalUser = true;
     description = "Rígille";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "kvm" "networkmanager" "plugdev" "wheel" "libvirtd" ];
     packages = with pkgs; [
     ];
   };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
-  nixpkgs.config.tarball-ttl = 0;
 
-  nix.package = pkgs.lib.mkForce pkgs.nixVersions.latest;
   nix.settings.experimental-features = [ "nix-command" "flakes" "ca-derivations" ];
   nix.settings.keep-outputs = true;
   nix.settings.keep-derivations = true;
@@ -153,34 +174,60 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    ed
-    inputs.neovim.outputs.packages.x86_64-linux.default
-    firefox-esr
-    radeontop
-    prismlauncher
-    xonotic-glx
-    discord
-    tdesktop
-    spotify
-    snes9x-gtk
-    tree
-    google-cloud-sdk
-    vim
-    pyright
-    nil
-    element-desktop
-    compcert
-    openrgb
-    libsForQt5.okular
-    tor
-    tor-browser-bundle-bin
-    calibre
-    mdcat
-    xclip
+    audacity
+    anki-bin
     blender
+    busybox
+    calibre
+    compcert
+    discord
+    ed
+    element-desktop
+    ffmpeg
+    firefox
+    google-cloud-sdk
+    inputs.neovim.outputs.packages.x86_64-linux.default
+    legcord
+    libsForQt5.okular
+    mdcat
+    nil
+    obs-studio
+    openrgb
+    prismlauncher
+    pyright
+    radeontop
+    snes9x-gtk
+    sox
+    spotify
+    tdesktop
+    tree
+    vim
     wget
+    xclip
+    xonotic-glx
+    zulu
     (pkgs.writeShellScriptBin "reliable-download" ''
       wget -c --timeout=60 --tries=0 --retry-connrefused --waitretry=5 "$@"
+    '')
+    (pkgs.writeShellScriptBin "consertar-som" ''
+      systemctl --user restart pipewire pipewire-pulse wireplumber
+    '')
+    (pkgs.writeShellScriptBin "launch" ''
+      if [[ $# -eq 0 ]]; then
+        echo "Usage: launch <command> [args...]"
+        exit 1
+      fi
+       
+      # Redirect stdout and stderr to /dev/null, detach from terminal
+      nohup "$@" > /dev/null 2>&1 &
+       
+      # Disown the process so it won't be killed when the terminal closes
+      disown $!
+       
+      echo "[$!] $1 launched"
+    '')
+    (pkgs.writeShellScriptBin "claudio" ''
+      CLAUDE_CONFIG_DIR=~/.claude-personal claude "$@"
     '')
   ];
   fonts.packages = with pkgs; [
@@ -195,6 +242,7 @@
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
+  programs.virt-manager.enable = true;
 
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
@@ -205,11 +253,8 @@
   # List services that you want to enable:
   services.flatpak.enable = true;
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [];
+  networking.firewall.allowedTCPPorts = [ 20 22 ];
   networking.firewall.allowedUDPPorts = [];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -221,5 +266,14 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
+
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      swtpm.enable = true;
+      ovmf.enable = true;
+    };
+  };
 
 }
