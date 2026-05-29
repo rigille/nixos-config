@@ -366,11 +366,11 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1772470810,
-        "narHash": "sha256-aotDLuC3yzc24iwmA/xScqM8v/vT3bnbxMbDlKzseOw=",
+        "lastModified": 1779993918,
+        "narHash": "sha256-IlpA1f9010E7THSM6w+T3fmHDK1yepSqtvrhbe4Ae6k=",
         "owner": "rigille",
         "repo": "neovim",
-        "rev": "eea2b2978b6dabb87fa96e928f96c82ab9636ec0",
+        "rev": "9fecc7731f4f367943fb2d79cf49e2365374d984",
         "type": "github"
       },
       "original": {
